@@ -11,7 +11,7 @@ VALUES ('James Hetfield', 'Hetfield@metallica.com', '$2a$10$FB/BOAVhpuLvpOREQVmv
 INSERT INTO properties (
   owner_id,
   title, description, thumbnail_photo_url, cover_photo_url,
-  cost_per_night, parking_spaces, number_of_bathrooms, number_of_bedrooms,
+  cost_per_night, parking_spaces, number_of_bedrooms, number_of_bathrooms,
   country, street, city, province, post_code, active
 )
   VALUES (1, 'Speed Lamp', 'description', 'https://images.pexels.com/photos/2086676/pexels-photo-2086676.jpeg?auto=compress&cs=tinysrgb&h=350', 'https://images.pexels.com/photos/2086676/pexels-photo-2086676.jpeg', 93061, 6, 4, 8, 'Canada', '536 namsub Highway', 'Sotboske', 'Quebec', '28142', true),
