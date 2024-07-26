@@ -140,15 +140,30 @@ const getAllProperties = (options, limit = 10) => {
 
   if (options.owner_id) {
     queryParams.push(options.owner_id);
-    queryString += queryParams.length > 1 ? `AND` : `WHERE`;
-    queryString += ` owner_id = $${queryParams.length} `;
+    queryString += `AND owner_id = $${queryParams.length} `;
   }
 
   if (options.minimum_price_per_night && options.maximum_price_per_night) {
     queryParams.push(options.minimum_price_per_night * 100, options.maximum_price_per_night * 100);
-    queryString += queryParams.length > 2 ? `AND` : `WHERE`;
-    queryString += ` cost_per_night >= $${queryParams.length - 1} AND cost_per_night <= $${queryParams.length} `;
+    queryString += `AND cost_per_night >= $${queryParams.length - 1} AND cost_per_night <= $${queryParams.length} `;
   }
+
+  queryString += `GROUP BY properties.id `;
+
+  if (options.minimum_rating) {
+    queryParams.push(options.minimum_rating);
+    queryString += `HAVING AVG(property_reviews.rating) >= $${queryParams.length} `;
+  }
+
+  queryParams.push(limit);
+  queryString += `
+  ORDER BY cost_per_night
+  LIMIT $${queryParams.length};
+  `;
+
+  return pool.query(queryString, queryParams).then((res) => res.rows);
+};
+
 
   // Add comment explaining price conversion
   // Prices are stored in cents in the database, so we multiply by 100 to convert dollars to cents
